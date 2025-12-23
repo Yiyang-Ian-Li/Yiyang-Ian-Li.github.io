@@ -1,36 +1,36 @@
 [site]
-title = "Jiale Liu"
-description = "PhD student at the University of Example."
-favicon = "/favicon.svg"
-last_updated = "November 18, 2025"
+title = "Yiyang Li"
+description = "PhD student at the University of Notre Dame."
+favicon = "/android-chrome-512x512.png"
+last_updated = "December, 2025"
 
 [author]
-name = "Jiale Liu"
+name = "Yiyang (Ian) Li"
 title = "PhD Student"
-institution = "University of Example"
-avatar = "/bio.jpg"
+institution = "University of Notre Dame"
+avatar = "/my_bio.jpg"
 
 [social]
 # Contact information (leave blank or delete to hide)
 
-email = "john.doe@example.com"
-location = "City, Country"
-location_url = "https://maps.google.com"
+email = "yli62@nd.edu"
+location = "South Bend, USA"
+location_url = "https://maps.app.goo.gl/8spJApxQdKNVLu8t6"
 location_details = [
-  "Room 123, Science Building,",
-  "University Avenue, City, Country"
+  "247B, Fitzpatrick Hall,",
+  "University of Notre Dame, Notre Dame, USA"
 ]
-google_scholar = "https://scholar.google.com"
-orcid = "https://orcid.org"
-github = "https://github.com"
-linkedin = "https://linkedin.com"
+google_scholar = "https://scholar.google.com/citations?user=Z4VYGCYAAAAJ&hl=en"
+# orcid = "https://orcid.org"
+github = "https://github.com/Yiyang-Ian-Li"
+linkedin = "https://www.linkedin.com/in/yiyang-ian-li-964185270/"
 
 [features]
 # Show a like button on the about page
-enable_likes = true
+enable_likes = false
 
 # Display all subpages on a single page
-enable_one_page_mode = false
+enable_one_page_mode = true
 
 [[navigation]]
 title = "About"
@@ -50,20 +50,20 @@ type = "page"
 target = "teaching"
 href = "/teaching"
 
-[[navigation]]
-title = "Awards"
-type = "page"
-target = "awards"
-href = "/awards"
+# [[navigation]]
+# title = "Awards"
+# type = "page"
+# target = "awards"
+# href = "/awards"
 
-[[navigation]]
-title = "Services"
-type = "page"
-target = "services"
-href = "/services"
+# [[navigation]]
+# title = "Services"
+# type = "page"
+# target = "services"
+# href = "/services"
 
-[[navigation]]
-title = "CV"
-type = "page"
-target = "cv"
-href = "/cv"
+# [[navigation]]
+# title = "CV"
+# type = "page"
+# target = "cv"
+# href = "/cv"

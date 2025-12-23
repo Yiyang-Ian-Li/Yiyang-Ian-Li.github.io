@@ -14,6 +14,7 @@ import {
 import { Publication } from '@/types/publication';
 import { PublicationPageConfig } from '@/types/page';
 import { cn } from '@/lib/utils';
+import ImageViewer from '@/components/ui/ImageViewer';
 
 interface PublicationsListProps {
     config: PublicationPageConfig;
@@ -28,6 +29,7 @@ export default function PublicationsList({ config, publications, embedded = fals
     const [showFilters, setShowFilters] = useState(false);
     const [expandedBibtexId, setExpandedBibtexId] = useState<string | null>(null);
     const [expandedAbstractId, setExpandedAbstractId] = useState<string | null>(null);
+    const [viewerImage, setViewerImage] = useState<{ src: string; alt: string } | null>(null);
 
     // Extract unique years and types for filters
     const years = useMemo(() => {
@@ -199,14 +201,20 @@ export default function PublicationsList({ config, publications, embedded = fals
                             <div className="flex flex-col md:flex-row gap-6">
                                 {pub.preview && (
                                     <div className="w-full md:w-48 flex-shrink-0">
-                                        <div className="aspect-video md:aspect-[4/3] relative rounded-lg overflow-hidden bg-neutral-100 dark:bg-neutral-800">
+                                        <div 
+                                            className="aspect-video md:aspect-[4/3] relative rounded-lg overflow-hidden bg-neutral-100 dark:bg-neutral-800 cursor-pointer hover:ring-2 hover:ring-accent transition-all duration-200 group"
+                                            onClick={() => setViewerImage({ src: `/papers/${pub.preview}`, alt: pub.title })}
+                                        >
                                             <Image
                                                 src={`/papers/${pub.preview}`}
                                                 alt={pub.title}
                                                 fill
-                                                className="object-cover"
+                                                className="object-cover group-hover:scale-105 transition-transform duration-200"
                                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                             />
+                                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-200 flex items-center justify-center">
+                                                <MagnifyingGlassIcon className="h-8 w-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                                            </div>
                                         </div>
                                     </div>
                                 )}
@@ -336,6 +344,14 @@ export default function PublicationsList({ config, publications, embedded = fals
                     ))
                 )}
             </div>
+
+            {/* Image Viewer */}
+            <ImageViewer
+                src={viewerImage?.src || ''}
+                alt={viewerImage?.alt || ''}
+                isOpen={!!viewerImage}
+                onClose={() => setViewerImage(null)}
+            />
         </motion.div>
     );
 }

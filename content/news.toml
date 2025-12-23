@@ -1,7 +1,11 @@
 [[news]]
-date = "2025-11"
-content = "Our work has been accepted by a prestigious journal 🎉"
+date = "2025-10"
+content = "We have released LLMs4ALL, an extensive survey on LLMs for research and applications in academic disciplines."
 
 [[news]]
-date = "2025-09"
-content = "Starting my PhD at the University of Example"
+date = "2025-05"
+content = "NGQA is accepted to ACL 2025 main conference."
+
+# [[news]]
+# date = "2024-9"
+# content = "Started my PhD journey at University of Notre Dame!"

@@ -132,14 +132,16 @@ export default function Home() {
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
 
-        {/* Left Column - Profile */}
+        {/* Left Column - Profile (Fixed on large screens) */}
         <div className="lg:col-span-1">
-          <Profile
-            author={config.author}
-            social={config.social}
-            features={config.features}
-            researchInterests={researchInterests}
-          />
+          <div className="lg:fixed lg:w-[calc((100vw-72rem)/2+16rem)] lg:max-w-[20rem]">
+            <Profile
+              author={config.author}
+              social={config.social}
+              features={config.features}
+              researchInterests={researchInterests}
+            />
+          </div>
         </div>
 
         {/* Right Column - Content */}

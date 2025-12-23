@@ -1,5 +1,3 @@
-I am a PhD student at the School of Science, University of Example, advised by [Prof. Advisor One](https://example.com) and [Dr. Advisor Two](https://example.com).
+My name is **Yiyang (Ian) Li**, a second-year Ph.D. student in the Department of Computer Science and Engineering at the University of Notre Dame. My advisor is [Prof. Yanfang (Fanny) Ye](http://yes-lab.org/). Under Prof. Ye’s supervision, I collaborate with my [lab mates](http://yes-lab.org/students.html), IBM Research, and [Prof. Chuxu Zhang](https://chuxuzhang.github.io/). Before joining Notre Dame, I received my B.E. degree in Artificial Intelligence from Northeastern University (China) in 2024.
 
-Prior to this, I obtained a BSc degree with First Class Honours in Natural Science from the University of Example.
-
-My current research focuses on investigating the mathematical principles of natural philosophy.
+My current research focuses on post-training strategies for optimizing large language models (LLMs) and LLM-based agents in domain-specific applications, with particular emphasis on **Autonomous Agents, Graph-Aided Reasoning, and LLM Personalization**.
