@@ -3,8 +3,8 @@ title = "About"
 
 [profile]
 research_interests = [
-  "Autonomous Agents",
-  "Data Mining",
+  "Agent Optimization",
+  "Agent Memory",
   # "Proof of Theorems"
 ]
 
