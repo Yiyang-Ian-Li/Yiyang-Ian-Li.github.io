@@ -1,6 +1,6 @@
 [[news]]
 date = "2026-01"
-content = "One paper is accepted by EACL Findings 2026."
+content = "One paper is accepted to EACL 2026 Findings."
 
 [[news]]
 date = "2025-10"
@@ -9,7 +9,3 @@ content = "We have released LLMs4ALL, an extensive survey on LLMs for research a
 [[news]]
 date = "2025-05"
 content = "NGQA is accepted to ACL 2025 main conference."
-
-# [[news]]
-# date = "2024-9"
-# content = "Started my PhD journey at University of Notre Dame!"
