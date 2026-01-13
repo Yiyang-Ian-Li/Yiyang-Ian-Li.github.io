@@ -1,4 +1,8 @@
 [[news]]
+date = "2026-01"
+content = "One paper is accepted by EACL Findings 2026."
+
+[[news]]
 date = "2025-10"
 content = "We have released LLMs4ALL, an extensive survey on LLMs for research and applications in academic disciplines."
 
