@@ -62,8 +62,7 @@ href = "/teaching"
 # target = "services"
 # href = "/services"
 
-# [[navigation]]
-# title = "CV"
-# type = "page"
-# target = "cv"
-# href = "/cv"
+[[navigation]]
+title = "CV"
+type = "link"
+href = "/Resume.pdf"
