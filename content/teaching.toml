@@ -3,8 +3,14 @@ title = "Teaching"
 description = "Courses I have taught or assisted with."
 
 [[items]]
+title = "Computer Security"
+subtitle = "Teaching Assistant"
+date = "2026 Spring"
+tags = ["Undergraduate", "CSE-40567"]
+
+[[items]]
 title = "Introduction to Artificial Intelligence"
 subtitle = "Teaching Assistant"
-date = "2024"
+date = "2024 Fall"
 # content = "Description of the course and responsibilities."
 tags = ["Undergraduate", "CSE-30124"]

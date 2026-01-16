@@ -2,11 +2,11 @@ type = "about"
 title = "About"
 
 [profile]
-research_interests = [
-  "Agent Optimization",
-  "Agent Memory",
-  "Knowledge Graph-Assisted Reasoning"
-]
+# research_interests = [
+#   "Agent Optimization",
+#   "Agent Memory",
+#   "Knowledge Graph-Assisted Reasoning"
+# ]
 
 [[sections]]
 id = "about"
