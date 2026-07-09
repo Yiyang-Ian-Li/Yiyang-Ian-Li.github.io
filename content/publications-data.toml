@@ -1,4 +1,15 @@
 [[publications]]
+id = "li2026ocm"
+title = "Object-Centric Environment Modeling for Agentic Tasks"
+authors = ["Yiyang Li", "Tianyi Ma", "Zehong Wang", "Yijun Ma", "Yanfang Ye"]
+journal = "Preprint"
+year = 2026
+type = "preprint"
+preview = "ocm.jpg"
+arxiv = "https://arxiv.org/abs/2607.02846"
+github = "https://github.com/Yiyang-Ian-Li/OCM"
+
+[[publications]]
 id = "li2026evotaxo"
 title = "EvoTaxo: Building and Evolving Taxonomy from Social Media Streams"
 authors = ["Yiyang Li", "Tianyi Ma", "Yanfang Ye"]
