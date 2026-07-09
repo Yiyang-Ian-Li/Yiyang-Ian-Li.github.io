@@ -14,6 +14,10 @@ import {
 
 import { Metadata } from 'next';
 
+function getSiteUrl(url?: string) {
+    return (url || 'https://yiyang-ian-li.github.io').replace(/\/+$/, '');
+}
+
 export function generateStaticParams() {
     const config = getConfig();
     return config.navigation
@@ -26,14 +30,26 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const { slug } = await params;
     const pageConfig = getPageConfig(slug) as BasePageConfig | null;
+    const siteConfig = getConfig();
+    const siteUrl = getSiteUrl(siteConfig.site.url);
 
     if (!pageConfig) {
         return {};
     }
 
     return {
+        metadataBase: new URL(siteUrl),
         title: pageConfig.title,
         description: pageConfig.description,
+        alternates: {
+            canonical: `/${slug}/`,
+        },
+        openGraph: {
+            type: 'website',
+            url: `${siteUrl}/${slug}/`,
+            title: `${pageConfig.title} | ${siteConfig.author.name}`,
+            description: pageConfig.description,
+        },
     };
 }
 

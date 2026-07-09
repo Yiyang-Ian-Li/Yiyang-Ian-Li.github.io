@@ -59,6 +59,62 @@ export default function PublicationsList({ config, publications, embedded = fals
         });
     }, [publications, searchQuery, selectedYear, selectedType]);
 
+    const renderPublicationCard = (pub: Publication, index: number) => {
+        const previewSrc = pub.preview ? getPreviewSrc(pub.preview) : '';
+
+        return (
+            <motion.div
+                key={pub.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.1 * index }}
+                className="w-full bg-white dark:bg-neutral-900 p-5 rounded-xl shadow-sm border border-neutral-200 dark:border-neutral-800 hover:shadow-md transition-all duration-200"
+            >
+                {pub.preview && (
+                    <div
+                        className="relative mb-4 flex min-h-32 cursor-pointer items-center justify-center overflow-hidden group"
+                        onClick={() => setViewerImage({ src: previewSrc, alt: pub.title })}
+                    >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            src={previewSrc}
+                            alt={pub.title}
+                            className="h-auto max-h-44 w-full object-contain group-hover:scale-[1.02] transition-transform duration-200"
+                        />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/15 transition-colors duration-200 flex items-center justify-center">
+                            <MagnifyingGlassIcon className="h-7 w-7 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                        </div>
+                    </div>
+                )}
+                <div className="flex flex-1 flex-col">
+                    <h3 className={`${embedded ? "text-base" : "text-lg"} font-semibold text-primary mb-2 leading-tight`}>
+                        {pub.title}
+                    </h3>
+                    <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-2">
+                        {pub.authors.map((author, idx) => (
+                            <span key={idx}>
+                                <span className={`${author.isHighlighted ? 'font-semibold text-accent' : ''} ${author.isCoAuthor ? `underline underline-offset-4 ${author.isHighlighted ? 'decoration-accent' : 'decoration-neutral-400'}` : ''}`}>
+                                    {author.name}
+                                </span>
+                                {author.isCorresponding && (
+                                    <sup className={`ml-0 ${author.isHighlighted ? 'text-accent' : 'text-neutral-600 dark:text-neutral-400'}`}>†</sup>
+                                )}
+                                {idx < pub.authors.length - 1 && ', '}
+                            </span>
+                        ))}
+                    </p>
+                    <p className="text-sm font-medium text-neutral-800 dark:text-neutral-600 mb-3">
+                        {pub.journal || pub.conference} {pub.year}
+                    </p>
+                    <PublicationBadges pub={pub} className="mt-auto" />
+                </div>
+            </motion.div>
+        );
+    };
+
+    const leftColumnPublications = filteredPublications.filter((_, index) => index % 2 === 0);
+    const rightColumnPublications = filteredPublications.filter((_, index) => index % 2 === 1);
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -198,70 +254,31 @@ export default function PublicationsList({ config, publications, embedded = fals
             )}
 
             {/* Publications Grid */}
-            <div className="space-y-6">
+            <div>
                 {filteredPublications.length === 0 ? (
                     <div className="text-center py-12 text-neutral-500">
                         No publications found matching your criteria.
                     </div>
                 ) : (
-                    filteredPublications.map((pub, index) => (
-                        (() => {
-                            const previewSrc = pub.preview ? getPreviewSrc(pub.preview) : '';
-                            return (
-                        <motion.div
-                            key={pub.id}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.4, delay: 0.1 * index }}
-                            className="bg-white dark:bg-neutral-900 p-6 rounded-xl shadow-sm border border-neutral-200 dark:border-neutral-800 hover:shadow-md transition-all duration-200"
-                        >
-                            <div className="flex flex-col md:flex-row gap-6">
-                                {pub.preview && (
-                                    <div className="w-full md:w-56 flex-shrink-0 md:self-center">
-                                        <div 
-                                            className="relative overflow-hidden bg-neutral-100 dark:bg-neutral-800 cursor-pointer hover:ring-2 hover:ring-accent transition-all duration-200 group"
-                                            onClick={() => setViewerImage({ src: previewSrc, alt: pub.title })}
-                                        >
-                                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                                            <img
-                                                src={previewSrc}
-                                                alt={pub.title}
-                                                className="h-auto w-full object-contain group-hover:scale-[1.02] transition-transform duration-200"
-                                            />
-                                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-200 flex items-center justify-center">
-                                                <MagnifyingGlassIcon className="h-8 w-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-                                <div className="flex-grow">
-                                    <h3 className={`${embedded ? "text-lg" : "text-xl"} font-semibold text-primary mb-2 leading-tight`}>
-                                        {pub.title}
-                                    </h3>
-                                    <p className={`${embedded ? "text-sm" : "text-base"} text-neutral-600 dark:text-neutral-400 mb-2`}>
-                                        {pub.authors.map((author, idx) => (
-                                            <span key={idx}>
-                                                <span className={`${author.isHighlighted ? 'font-semibold text-accent' : ''} ${author.isCoAuthor ? `underline underline-offset-4 ${author.isHighlighted ? 'decoration-accent' : 'decoration-neutral-400'}` : ''}`}>
-                                                    {author.name}
-                                                </span>
-                                                {author.isCorresponding && (
-                                                    <sup className={`ml-0 ${author.isHighlighted ? 'text-accent' : 'text-neutral-600 dark:text-neutral-400'}`}>†</sup>
-                                                )}
-                                                {idx < pub.authors.length - 1 && ', '}
-                                            </span>
-                                        ))}
-                                    </p>
-                                    <p className="text-sm font-medium text-neutral-800 dark:text-neutral-600 mb-3">
-                                        {pub.journal || pub.conference} {pub.year}
-                                    </p>
-
-                                    <PublicationBadges pub={pub} className="mt-auto" />
-                                </div>
+                    <>
+                        <div className="space-y-6 xl:hidden">
+                            {filteredPublications.map((pub, index) => renderPublicationCard(pub, index))}
+                        </div>
+                        <div className="hidden gap-6 xl:grid xl:grid-cols-2">
+                            <div className="space-y-6">
+                                {leftColumnPublications.map((pub) => {
+                                    const originalIndex = filteredPublications.indexOf(pub);
+                                    return renderPublicationCard(pub, originalIndex);
+                                })}
                             </div>
-                        </motion.div>
-                            );
-                        })()
-                    ))
+                            <div className="space-y-6">
+                                {rightColumnPublications.map((pub) => {
+                                    const originalIndex = filteredPublications.indexOf(pub);
+                                    return renderPublicationCard(pub, originalIndex);
+                                })}
+                            </div>
+                        </div>
+                    </>
                 )}
             </div>
 

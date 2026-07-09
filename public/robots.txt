@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+
+Host: https://yiyang-ian-li.github.io
+Sitemap: https://yiyang-ian-li.github.io/sitemap.xml

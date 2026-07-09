@@ -5,27 +5,72 @@ import Footer from "@/components/layout/Footer";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import { getConfig } from "@/lib/config";
 
+function getSiteUrl(url?: string) {
+  return (url || "https://yiyang-ian-li.github.io").replace(/\/+$/, "");
+}
+
 export async function generateMetadata(): Promise<Metadata> {
   const config = getConfig();
+  const siteUrl = getSiteUrl(config.site.url);
+  const title = `${config.author.name} | PhD Student at the University of Notre Dame`;
+
   return {
+    metadataBase: new URL(siteUrl),
     title: {
-      default: config.site.title,
-      template: `%s | ${config.site.title}`
+      default: title,
+      template: `%s | ${config.author.name}`
     },
     description: config.site.description,
-    keywords: [config.author.name, "PhD", "Research", config.author.institution],
+    keywords: [
+      config.author.name,
+      "Yiyang Ian Li",
+      "PhD Student",
+      "University of Notre Dame",
+      "Agentic AI Systems",
+      "Self-Evolving Agents",
+      "Agent Harnessing",
+    ],
     authors: [{ name: config.author.name }],
     creator: config.author.name,
     publisher: config.author.name,
+    alternates: {
+      canonical: "/",
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
+    },
     icons: {
       icon: config.site.favicon,
     },
     openGraph: {
       type: "website",
       locale: "en_US",
-      title: config.site.title,
+      url: siteUrl,
+      title,
       description: config.site.description,
       siteName: `${config.author.name}'s Academic Website`,
+      images: [
+        {
+          url: config.author.avatar,
+          width: 512,
+          height: 512,
+          alt: config.author.name,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description: config.site.description,
+      images: [config.author.avatar],
     },
   };
 }
@@ -36,11 +81,38 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const config = getConfig();
+  const siteUrl = getSiteUrl(config.site.url);
+  const personJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: config.author.name,
+    alternateName: "Yiyang Ian Li",
+    url: siteUrl,
+    image: `${siteUrl}${config.author.avatar}`,
+    jobTitle: config.author.title,
+    affiliation: {
+      "@type": "CollegeOrUniversity",
+      name: config.author.institution,
+    },
+    email: config.social.email ? `mailto:${config.social.email}` : undefined,
+    address: config.social.location,
+    sameAs: [
+      config.social.google_scholar,
+      config.social.github,
+      config.social.linkedin,
+    ].filter(Boolean),
+    knowsAbout: [
+      "Agentic AI Systems",
+      "Self-Evolving Agents",
+      "Agent Harnessing",
+    ],
+  };
 
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
-        <link rel="icon" href={config.site.favicon} type="image/svg+xml" />
+        <link rel="canonical" href={siteUrl} />
+        <link rel="icon" href={config.site.favicon} type="image/png" />
         {/* Speed up font connections */}
         <link rel="dns-prefetch" href="https://google-fonts.jialeliu.com" />
         <link rel="preconnect" href="https://google-fonts.jialeliu.com" crossOrigin="" />
@@ -95,6 +167,10 @@ export default function RootLayout({
               }
             `,
           }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
       </head>
       <body className={`font-sans antialiased`}>

@@ -55,14 +55,14 @@ export default function ImageViewer({ src, alt, isOpen, onClose }: ImageViewerPr
                         animate={{ scale: 1 }}
                         exit={{ scale: 0.8 }}
                         transition={{ duration: 0.2 }}
-                        className="relative flex max-w-[86vw] max-h-[78vh] items-center justify-center bg-background/95 p-3 shadow-xl dark:bg-neutral-900/95"
+                        className="relative flex max-w-[92vw] max-h-[86vh] items-center justify-center bg-background/95 p-2 shadow-xl dark:bg-neutral-900/95"
                         onClick={(e) => e.stopPropagation()}
                     >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src={src}
                             alt={alt}
-                            className="max-h-[72vh] w-auto max-w-[min(820px,82vw)] object-contain"
+                            className="max-h-[82vh] w-auto max-w-[min(1040px,90vw)] object-contain"
                         />
                     </motion.div>
 

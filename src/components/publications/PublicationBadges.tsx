@@ -37,7 +37,7 @@ export default function PublicationBadges({ pub, className }: { pub: Publication
         },
         {
             kind: 'huggingface',
-            label: 'Hugging Face',
+            label: 'Dataset',
             href: pub.huggingface,
             mark: <i className="fa-brands fa-hugging-face text-[0.95rem] leading-none" aria-hidden="true" />,
         },
