@@ -9,6 +9,13 @@ function getSiteUrl(url?: string) {
   return (url || "https://yiyang-ian-li.github.io").replace(/\/+$/, "");
 }
 
+function getBuildDate() {
+  return new Date().toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+  });
+}
+
 export async function generateMetadata(): Promise<Metadata> {
   const config = getConfig();
   const siteUrl = getSiteUrl(config.site.url);
@@ -82,6 +89,7 @@ export default function RootLayout({
 }>) {
   const config = getConfig();
   const siteUrl = getSiteUrl(config.site.url);
+  const buildDate = getBuildDate();
   const personJsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -183,7 +191,7 @@ export default function RootLayout({
           <main className="min-h-screen pt-16 lg:pt-20">
             {children}
           </main>
-          <Footer lastUpdated={config.site.last_updated} />
+          <Footer lastUpdated={buildDate} />
         </ThemeProvider>
       </body>
     </html>
