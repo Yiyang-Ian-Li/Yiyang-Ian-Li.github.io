@@ -1,15 +1,23 @@
 [[news]]
+date = "2026-07"
+content = "[PreScam](https://arxiv.org/abs/2605.12243) is accepted to COLM 2026. Congrats to [Sweson](https://weixiang-sun.github.io/)!"
+
+[[news]]
+date = "2026-06"
+content = "[OPBench](https://arxiv.org/abs/2602.14602) is selected for an oral presentation at KDD 2026 D&B. Congrats to [Billy](https://tianyi-billy-ma.github.io/)!"
+
+[[news]]
 date = "2026-04"
-content = "One paper is accepted to ICML 2026. Congrats to [Billy](https://tianyi-billy-ma.github.io/)!"
+content = "[N-MARS](https://openreview.net/forum?id=r5PfcYvYEE) is accepted to ICML 2026. Congrats to [Billy](https://tianyi-billy-ma.github.io/)!"
 
 [[news]]
 date = "2026-01"
-content = "One paper is accepted to EACL 2026 Findings."
+content = "[LAMI](https://arxiv.org/abs/2510.15961) is accepted to EACL 2026 Findings."
 
 [[news]]
 date = "2025-10"
-content = "We have released LLMs4ALL, an extensive survey on LLMs for research and applications in academic disciplines."
+content = "We have released [LLMs4ALL](https://arxiv.org/abs/2509.19580), an extensive survey on LLMs for research and applications in academic disciplines."
 
 [[news]]
 date = "2025-05"
-content = "NGQA is accepted to ACL 2025 main conference."
+content = "[NGQA](https://arxiv.org/abs/2412.15547) is accepted to ACL 2025 main conference. Congrats to [Jason](https://jasonzhangzy1757.github.io/)!"

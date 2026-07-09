@@ -1,0 +1,49 @@
+[[publications]]
+id = "li2026evotaxo"
+title = "EvoTaxo: Building and Evolving Taxonomy from Social Media Streams"
+authors = ["Yiyang Li", "Tianyi Ma", "Yanfang Ye"]
+journal = "Preprint"
+year = 2026
+type = "preprint"
+preview = "evotaxo.png"
+arxiv = "https://arxiv.org/abs/2603.19711"
+github = "https://github.com/Yiyang-Ian-Li/EvoTaxo"
+
+[[publications]]
+id = "li2025longda"
+title = "LongDA: Benchmarking LLM Agents for Long-Document Data Analysis"
+authors = ["Yiyang Li", "Zheyuan Zhang", "Tianyi Ma", "Zehong Wang", "Keerthiram Murugesan", "Chuxu Zhang", "Yanfang Ye"]
+journal = "Preprint"
+year = 2026
+type = "preprint"
+preview = "longda.jpg"
+arxiv = "https://arxiv.org/abs/2601.02598"
+github = "https://github.com/Yiyang-Ian-Li/LongDA"
+huggingface = "https://huggingface.co/datasets/Yiyang-Ian-Li/LongDA"
+
+[[publications]]
+id = "li2025interpretable"
+title = "Interpretable Graph-Language Modeling for Detecting Youth Illicit Drug Use"
+authors = ["Yiyang Li", "Zehong Wang", "Zhengqing Yuan", "Zheyuan Zhang", "Keerthiram Murugesan", "Chuxu Zhang", "Yanfang Ye"]
+co_first_authors = ["Yiyang Li", "Zehong Wang"]
+journal = "EACL Findings"
+year = 2026
+type = "conference"
+preview = "lami.png"
+arxiv = "https://arxiv.org/abs/2510.15961"
+github = "https://github.com/Yiyang-Ian-Li/LAMI"
+keywords = ["Graph Neural Networks", "Natural Language Processing", "Drug Use Detection"]
+
+[[publications]]
+id = "zhang2025ngqa"
+title = "NGQA: a nutritional graph question answering benchmark for personalized health-aware nutritional reasoning"
+authors = ["Zheyuan Zhang", "Yiyang Li", "Nhi Ha Lan Le", "Zehong Wang", "Tianyi Ma", "Vincent Galassi", "Keerthiram Murugesan", "Nuno Moniz", "Werner Geyer", "Nitesh V Chawla", "Chuxu Zhang", "Yanfang Ye"]
+co_first_authors = ["Zheyuan Zhang", "Yiyang Li", "Nhi Ha Lan Le"]
+conference = "ACL"
+year = 2025
+type = "conference"
+pages = "5934--5966"
+preview = "ngqa.png"
+arxiv = "https://arxiv.org/abs/2412.15547"
+github = "https://github.com/Yiyang-Ian-Li/NGQA"
+keywords = ["Natural Language Processing", "Question Answering", "Knowledge Graphs"]

@@ -14,16 +14,6 @@ export function getMarkdownContent(filename: string): string {
     }
 }
 
-export function getBibtexContent(filename: string): string {
-    try {
-        const filePath = path.join(CONTENT_DIR, filename);
-        return fs.readFileSync(filePath, 'utf-8');
-    } catch (error) {
-        console.error(`Error loading bibtex file ${filename}:`, error);
-        return '';
-    }
-}
-
 export function getTomlContent<T>(filename: string): T | null {
     try {
         const filePath = path.join(CONTENT_DIR, filename);

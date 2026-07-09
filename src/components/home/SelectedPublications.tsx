@@ -1,16 +1,16 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 import { Publication } from '@/types/publication';
+import PublicationBadges from '@/components/publications/PublicationBadges';
 
 interface SelectedPublicationsProps {
     publications: Publication[];
     title?: string;
-    enableOnePageMode?: boolean;
+    viewAllHref?: string;
 }
 
-export default function SelectedPublications({ publications, title = 'Selected Publications', enableOnePageMode = false }: SelectedPublicationsProps) {
+export default function SelectedPublications({ publications, title = 'Selected Publications', viewAllHref }: SelectedPublicationsProps) {
     return (
         <motion.section
             initial={{ opacity: 0, y: 20 }}
@@ -19,13 +19,16 @@ export default function SelectedPublications({ publications, title = 'Selected P
         >
             <div className="flex items-center justify-between mb-4">
                 <h2 className="text-2xl font-serif font-bold text-primary">{title}</h2>
-                <Link
-                    href={enableOnePageMode ? "/#publications" : "/publications"}
-                    prefetch={true}
+                {viewAllHref && (
+                <a
+                    href={viewAllHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-accent hover:text-accent-dark text-sm font-medium transition-all duration-200 rounded hover:bg-accent/10 hover:shadow-sm"
                 >
-                    View All →
-                </Link>
+                    View All -&gt;
+                </a>
+                )}
             </div>
             <div className="space-y-4">
                 {publications.map((pub, index) => (
@@ -55,11 +58,7 @@ export default function SelectedPublications({ publications, title = 'Selected P
                         <p className="text-sm text-neutral-600 dark:text-neutral-500 mb-2">
                             {pub.journal || pub.conference}
                         </p>
-                        {pub.description && (
-                            <p className="text-sm text-neutral-500 dark:text-neutral-500 line-clamp-2">
-                                {pub.description}
-                            </p>
-                        )}
+                        <PublicationBadges pub={pub} className="mt-3" />
                     </motion.div>
                 ))}
             </div>

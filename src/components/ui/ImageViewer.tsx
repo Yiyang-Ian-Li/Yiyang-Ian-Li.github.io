@@ -1,9 +1,8 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
-import { XMarkIcon, MagnifyingGlassMinusIcon, MagnifyingGlassPlusIcon } from '@heroicons/react/24/outline';
-import { useState, useEffect } from 'react';
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import { useEffect } from 'react';
 
 interface ImageViewerProps {
     src: string;
@@ -13,15 +12,6 @@ interface ImageViewerProps {
 }
 
 export default function ImageViewer({ src, alt, isOpen, onClose }: ImageViewerProps) {
-    const [scale, setScale] = useState(1);
-
-    // Reset scale when opening/closing
-    useEffect(() => {
-        if (isOpen) {
-            setScale(1);
-        }
-    }, [isOpen]);
-
     // Handle ESC key to close
     useEffect(() => {
         const handleEsc = (e: KeyboardEvent) => {
@@ -31,17 +21,11 @@ export default function ImageViewer({ src, alt, isOpen, onClose }: ImageViewerPr
         };
         if (isOpen) {
             window.addEventListener('keydown', handleEsc);
-            // Prevent body scroll when viewer is open
-            document.body.style.overflow = 'hidden';
         }
         return () => {
             window.removeEventListener('keydown', handleEsc);
-            document.body.style.overflow = 'unset';
         };
     }, [isOpen, onClose]);
-
-    const zoomIn = () => setScale(prev => Math.min(prev + 0.25, 3));
-    const zoomOut = () => setScale(prev => Math.max(prev - 0.25, 0.5));
 
     return (
         <AnimatePresence>
@@ -50,47 +34,20 @@ export default function ImageViewer({ src, alt, isOpen, onClose }: ImageViewerPr
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-background/70 dark:bg-neutral-950/70"
                     onClick={onClose}
+                    onWheel={(e) => e.preventDefault()}
                 >
-                    {/* Controls */}
-                    <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                zoomOut();
-                            }}
-                            className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors"
-                            title="Zoom Out"
-                        >
-                            <MagnifyingGlassMinusIcon className="h-5 w-5" />
-                        </button>
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                zoomIn();
-                            }}
-                            className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors"
-                            title="Zoom In"
-                        >
-                            <MagnifyingGlassPlusIcon className="h-5 w-5" />
-                        </button>
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                onClose();
-                            }}
-                            className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors"
-                            title="Close (ESC)"
-                        >
-                            <XMarkIcon className="h-6 w-6" />
-                        </button>
-                    </div>
-
-                    {/* Scale indicator */}
-                    <div className="absolute top-4 left-4 px-3 py-1 rounded-lg bg-white/10 text-white text-sm z-10">
-                        {Math.round(scale * 100)}%
-                    </div>
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onClose();
+                        }}
+                        className="absolute top-5 right-5 z-10 p-1.5 rounded-full border border-neutral-200/80 bg-background/90 text-neutral-500 shadow-sm hover:text-primary hover:bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900/90 dark:text-neutral-400 dark:hover:text-white dark:hover:bg-neutral-800 transition-colors"
+                        title="Close (ESC)"
+                    >
+                        <XMarkIcon className="h-4 w-4" />
+                    </button>
 
                     {/* Image */}
                     <motion.div
@@ -98,31 +55,19 @@ export default function ImageViewer({ src, alt, isOpen, onClose }: ImageViewerPr
                         animate={{ scale: 1 }}
                         exit={{ scale: 0.8 }}
                         transition={{ duration: 0.2 }}
-                        className="relative max-w-[90vw] max-h-[90vh] overflow-auto"
+                        className="relative flex max-w-[86vw] max-h-[78vh] items-center justify-center bg-background/95 p-3 shadow-xl dark:bg-neutral-900/95"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <div 
-                            className="relative transition-transform duration-200"
-                            style={{ 
-                                transform: `scale(${scale})`,
-                                transformOrigin: 'center'
-                            }}
-                        >
-                            <Image
-                                src={src}
-                                alt={alt}
-                                width={1200}
-                                height={900}
-                                className="w-auto h-auto max-w-none"
-                                style={{ maxHeight: '90vh', width: 'auto' }}
-                                priority
-                            />
-                        </div>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            src={src}
+                            alt={alt}
+                            className="max-h-[72vh] w-auto max-w-[min(820px,82vw)] object-contain"
+                        />
                     </motion.div>
 
-                    {/* Hint text */}
-                    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white/60 text-sm">
-                        Click outside or press ESC to close
+                    <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 text-neutral-400 dark:text-neutral-500 text-xs">
+                        Click outside to close
                     </div>
                 </motion.div>
             )}

@@ -1,4 +1,4 @@
 type = "publication"
 title = "Selected Publications"
 # description = "A collection of my research works."
-source = "publications.bib"
+source = "publications-data.toml"

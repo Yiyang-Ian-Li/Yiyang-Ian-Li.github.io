@@ -14,16 +14,15 @@ avatar = "/my_bio.jpg"
 # Contact information (leave blank or delete to hide)
 
 email = "yli62@nd.edu"
-location = "South Bend, USA"
+location = "South Bend, IN"
 location_url = "https://maps.app.goo.gl/8spJApxQdKNVLu8t6"
 location_details = [
   "247B, Fitzpatrick Hall,",
   "University of Notre Dame, Notre Dame, USA"
 ]
 google_scholar = "https://scholar.google.com/citations?user=Z4VYGCYAAAAJ&hl=en"
-orcid = "https://orcid.org/0009-0006-4307-1679"
 github = "https://github.com/Yiyang-Ian-Li"
-linkedin = "https://www.linkedin.com/in/yiyang-ian-li-964185270/"
+linkedin = "https://www.linkedin.com/in/yiyang-li-964185270/"
 
 [features]
 # Show a like button on the about page

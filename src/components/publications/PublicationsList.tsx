@@ -2,33 +2,34 @@
 
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
 import {
     MagnifyingGlassIcon,
     FunnelIcon,
     CalendarIcon,
     BookOpenIcon,
-    ClipboardDocumentIcon,
-    DocumentTextIcon
 } from '@heroicons/react/24/outline';
 import { Publication } from '@/types/publication';
 import { PublicationPageConfig } from '@/types/page';
 import { cn } from '@/lib/utils';
 import ImageViewer from '@/components/ui/ImageViewer';
+import PublicationBadges from '@/components/publications/PublicationBadges';
 
 interface PublicationsListProps {
     config: PublicationPageConfig;
     publications: Publication[];
     embedded?: boolean;
+    viewAllHref?: string;
 }
 
-export default function PublicationsList({ config, publications, embedded = false }: PublicationsListProps) {
+function getPreviewSrc(preview: string) {
+    return `/papers/${preview.replace(/^\/+/, '')}`;
+}
+
+export default function PublicationsList({ config, publications, embedded = false, viewAllHref }: PublicationsListProps) {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedYear, setSelectedYear] = useState<number | 'all'>('all');
     const [selectedType, setSelectedType] = useState<string | 'all'>('all');
     const [showFilters, setShowFilters] = useState(false);
-    const [expandedBibtexId, setExpandedBibtexId] = useState<string | null>(null);
-    const [expandedAbstractId, setExpandedAbstractId] = useState<string | null>(null);
     const [viewerImage, setViewerImage] = useState<{ src: string; alt: string } | null>(null);
 
     // Extract unique years and types for filters
@@ -65,7 +66,19 @@ export default function PublicationsList({ config, publications, embedded = fals
             transition={{ duration: 0.6, delay: 0.4 }}
         >
             <div className="mb-8">
-                <h1 className={`${embedded ? "text-2xl" : "text-4xl"} font-serif font-bold text-primary mb-4`}>{config.title}</h1>
+                <div className="flex items-center justify-between gap-4 mb-4">
+                    <h1 className={`${embedded ? "text-2xl" : "text-4xl"} font-serif font-bold text-primary`}>{config.title}</h1>
+                    {embedded && viewAllHref && (
+                        <a
+                            href={viewAllHref}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-accent hover:text-accent-dark text-sm font-medium whitespace-nowrap transition-all duration-200 rounded hover:bg-accent/10 hover:shadow-sm"
+                        >
+                            View All -&gt;
+                        </a>
+                    )}
+                </div>
                 {config.description && (
                     <p className={`${embedded ? "text-base" : "text-lg"} text-neutral-600 dark:text-neutral-500 max-w-2xl`}>
                         {config.description}
@@ -73,7 +86,7 @@ export default function PublicationsList({ config, publications, embedded = fals
                 )}
             </div>
 
-            {/* Search and Filter Controls */}
+            {!embedded && (
             <div className="mb-8 space-y-4">
                 {/* ... (keep existing controls) ... */}
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -182,6 +195,7 @@ export default function PublicationsList({ config, publications, embedded = fals
                     )}
                 </AnimatePresence>
             </div>
+            )}
 
             {/* Publications Grid */}
             <div className="space-y-6">
@@ -191,6 +205,9 @@ export default function PublicationsList({ config, publications, embedded = fals
                     </div>
                 ) : (
                     filteredPublications.map((pub, index) => (
+                        (() => {
+                            const previewSrc = pub.preview ? getPreviewSrc(pub.preview) : '';
+                            return (
                         <motion.div
                             key={pub.id}
                             initial={{ opacity: 0, y: 20 }}
@@ -200,17 +217,16 @@ export default function PublicationsList({ config, publications, embedded = fals
                         >
                             <div className="flex flex-col md:flex-row gap-6">
                                 {pub.preview && (
-                                    <div className="w-full md:w-48 flex-shrink-0">
+                                    <div className="w-full md:w-56 flex-shrink-0 md:self-center">
                                         <div 
-                                            className="aspect-video md:aspect-[4/3] relative rounded-lg overflow-hidden bg-neutral-100 dark:bg-neutral-800 cursor-pointer hover:ring-2 hover:ring-accent transition-all duration-200 group"
-                                            onClick={() => setViewerImage({ src: `/papers/${pub.preview}`, alt: pub.title })}
+                                            className="relative overflow-hidden bg-neutral-100 dark:bg-neutral-800 cursor-pointer hover:ring-2 hover:ring-accent transition-all duration-200 group"
+                                            onClick={() => setViewerImage({ src: previewSrc, alt: pub.title })}
                                         >
-                                            <Image
-                                                src={`/papers/${pub.preview}`}
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                                            <img
+                                                src={previewSrc}
                                                 alt={pub.title}
-                                                fill
-                                                className="object-cover group-hover:scale-105 transition-transform duration-200"
-                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                                className="h-auto w-full object-contain group-hover:scale-[1.02] transition-transform duration-200"
                                             />
                                             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-200 flex items-center justify-center">
                                                 <MagnifyingGlassIcon className="h-8 w-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
@@ -239,108 +255,12 @@ export default function PublicationsList({ config, publications, embedded = fals
                                         {pub.journal || pub.conference} {pub.year}
                                     </p>
 
-                                    {pub.description && (
-                                        <p className="text-sm text-neutral-600 dark:text-neutral-500 mb-4 line-clamp-3">
-                                            {pub.description}
-                                        </p>
-                                    )}
-
-                                    <div className="flex flex-wrap gap-2 mt-auto">
-                                        {pub.doi && (
-                                            <a
-                                                href={`https://doi.org/${pub.doi}`}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-accent hover:text-white transition-colors"
-                                            >
-                                                DOI
-                                            </a>
-                                        )}
-                                        {pub.code && (
-                                            <a
-                                                href={pub.code}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-accent hover:text-white transition-colors"
-                                            >
-                                                Code
-                                            </a>
-                                        )}
-                                        {pub.abstract && (
-                                            <button
-                                                onClick={() => setExpandedAbstractId(expandedAbstractId === pub.id ? null : pub.id)}
-                                                className={cn(
-                                                    "inline-flex items-center px-3 py-1 rounded-md text-xs font-medium transition-colors",
-                                                    expandedAbstractId === pub.id
-                                                        ? "bg-accent text-white"
-                                                        : "bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-accent hover:text-white"
-                                                )}
-                                            >
-                                                <DocumentTextIcon className="h-3 w-3 mr-1.5" />
-                                                Abstract
-                                            </button>
-                                        )}
-                                        {pub.bibtex && (
-                                            <button
-                                                onClick={() => setExpandedBibtexId(expandedBibtexId === pub.id ? null : pub.id)}
-                                                className={cn(
-                                                    "inline-flex items-center px-3 py-1 rounded-md text-xs font-medium transition-colors",
-                                                    expandedBibtexId === pub.id
-                                                        ? "bg-accent text-white"
-                                                        : "bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-accent hover:text-white"
-                                                )}
-                                            >
-                                                <BookOpenIcon className="h-3 w-3 mr-1.5" />
-                                                BibTeX
-                                            </button>
-                                        )}
-                                    </div>
-
-                                    <AnimatePresence>
-                                        {expandedAbstractId === pub.id && pub.abstract ? (
-                                            <motion.div
-                                                key="abstract"
-                                                initial={{ opacity: 0, height: 0 }}
-                                                animate={{ opacity: 1, height: 'auto' }}
-                                                exit={{ opacity: 0, height: 0 }}
-                                                className="overflow-hidden mt-4"
-                                            >
-                                                <div className="bg-neutral-50 dark:bg-neutral-800 rounded-lg p-4 border border-neutral-200 dark:border-neutral-700">
-                                                    <p className="text-sm text-neutral-600 dark:text-neutral-500 leading-relaxed">
-                                                        {pub.abstract}
-                                                    </p>
-                                                </div>
-                                            </motion.div>
-                                        ) : null}
-                                        {expandedBibtexId === pub.id && pub.bibtex ? (
-                                            <motion.div
-                                                key="bibtex"
-                                                initial={{ opacity: 0, height: 0 }}
-                                                animate={{ opacity: 1, height: 'auto' }}
-                                                exit={{ opacity: 0, height: 0 }}
-                                                className="overflow-hidden mt-4"
-                                            >
-                                                <div className="relative bg-neutral-50 dark:bg-neutral-800 rounded-lg p-4 border border-neutral-200 dark:border-neutral-700">
-                                                    <pre className="text-xs text-neutral-600 dark:text-neutral-500 overflow-x-auto whitespace-pre-wrap font-mono">
-                                                        {pub.bibtex}
-                                                    </pre>
-                                                    <button
-                                                        onClick={() => {
-                                                            navigator.clipboard.writeText(pub.bibtex || '');
-                                                            // Optional: Show copied feedback
-                                                        }}
-                                                        className="absolute top-2 right-2 p-1.5 rounded-md bg-white dark:bg-neutral-700 text-neutral-500 hover:text-accent shadow-sm border border-neutral-200 dark:border-neutral-600 transition-colors"
-                                                        title="Copy to clipboard"
-                                                    >
-                                                        <ClipboardDocumentIcon className="h-4 w-4" />
-                                                    </button>
-                                                </div>
-                                            </motion.div>
-                                        ) : null}
-                                    </AnimatePresence>
+                                    <PublicationBadges pub={pub} className="mt-auto" />
                                 </div>
                             </div>
                         </motion.div>
+                            );
+                        })()
                     ))
                 )}
             </div>

@@ -1,6 +1,6 @@
 import { getConfig } from '@/lib/config';
-import { getMarkdownContent, getBibtexContent, getTomlContent, getPageConfig } from '@/lib/content';
-import { parseBibTeX } from '@/lib/bibtexParser';
+import { getMarkdownContent, getTomlContent, getPageConfig } from '@/lib/content';
+import { loadPublications } from '@/lib/publicationData';
 import Profile from '@/components/home/Profile';
 import About from '@/components/home/About';
 import SelectedPublications from '@/components/home/SelectedPublications';
@@ -18,7 +18,6 @@ interface SectionConfig {
   type: 'markdown' | 'publications' | 'list';
   title?: string;
   source?: string;
-  filter?: string;
   limit?: number;
   content?: string;
   publications?: Publication[];
@@ -49,14 +48,10 @@ export default function Home() {
             content: section.source ? getMarkdownContent(section.source) : ''
           };
         case 'publications': {
-          const bibtex = getBibtexContent('publications.bib');
-          const allPubs = parseBibTeX(bibtex);
-          const filteredPubs = section.filter === 'selected'
-            ? allPubs.filter(p => p.selected)
-            : allPubs;
+          const allPubs = loadPublications(section.source || 'publications-data.toml');
           return {
             ...section,
-            publications: filteredPubs.slice(0, section.limit || 5)
+            publications: allPubs.slice(0, section.limit || 5)
           };
         }
         case 'list': {
@@ -92,12 +87,11 @@ export default function Home() {
           } as PageData;
         } else if (pageConfig.type === 'publication') {
           const pubConfig = pageConfig as PublicationPageConfig;
-          const bibtex = getBibtexContent(pubConfig.source);
           return {
             type: 'publication',
             id: item.target,
             config: pubConfig,
-            publications: parseBibTeX(bibtex)
+            publications: loadPublications(pubConfig.source)
           } as PageData;
         } else if (pageConfig.type === 'text') {
           const textConfig = pageConfig as TextPageConfig;
@@ -164,7 +158,7 @@ export default function Home() {
                         key={section.id}
                         publications={section.publications || []}
                         title={section.title}
-                        enableOnePageMode={enableOnePageMode}
+                        viewAllHref={config.social.google_scholar}
                       />
                     );
                   case 'list':
@@ -184,6 +178,7 @@ export default function Home() {
                   config={page.config}
                   publications={page.publications}
                   embedded={true}
+                  viewAllHref={config.social.google_scholar}
                 />
               )}
               {page.type === 'text' && (
@@ -206,4 +201,3 @@ export default function Home() {
     </div>
   );
 }
-

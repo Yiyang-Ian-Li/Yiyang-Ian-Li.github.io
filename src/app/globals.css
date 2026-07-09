@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+@import "academicons/css/academicons.min.css";
 
 /* Explicitly set dark mode to use class strategy */
 @variant dark (&:where(.dark, .dark *));

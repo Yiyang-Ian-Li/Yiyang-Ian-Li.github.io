@@ -9,9 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.3.0",
     "@headlessui/react": "^2.2.4",
     "@heroicons/react": "^2.2.0",
-    "bibtex-parse-js": "^0.0.24",
+    "academicons": "^1.9.5",
     "clsx": "^2.1.1",
     "framer-motion": "^12.18.1",
     "lucide-react": "^0.515.0",
